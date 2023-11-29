@@ -12,3 +12,13 @@ export const getDogById = async (id) => {
   const res = await fetch(`/api/dogs/${id}`);
   return res.json();
 }
+
+export const getWalkers = async () => {
+  const res = await fetch("/api/walkers");
+  return res.json();
+}
+
+export const getCities = async () => {
+  const res = await fetch("/api/cities");
+  return res.json();
+}

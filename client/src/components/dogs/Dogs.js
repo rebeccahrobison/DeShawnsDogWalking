@@ -18,6 +18,10 @@ export const Dogs = () => {
 
   return (
     <div className="dogs-container">
+      <button 
+        className="dog-add-btn"
+        onClick={() => {navigate(`newdog`)}}  
+      >+Add New Dog</button>
       {/* <div>Dog List</div> */}
       {dogs.map(dog => {
         return (

@@ -141,7 +141,23 @@ app.MapGet("/api/dogs/{id}", (int id) => {
     });
 });
 
+app.MapGet("api/walkers", () =>
+{
+    return walkers.Select(w => new WalkerDTO
+    {
+        Id = w.Id,
+        Name = w.Name
+    });
+});
 
+app.MapGet("api/cities", () =>
+{
+    return cities.Select(c => new CityDTO
+    {
+        Id = c.Id,
+        Name = c.Name
+    });
+});
 
 
 app.Run();
