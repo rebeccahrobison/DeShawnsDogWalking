@@ -19,7 +19,7 @@ List<City> cities = new List<City>
 List<Dog> dogs = new List<Dog>
 {
     new Dog { Id = 1, Name = "Luigi", WalkerId = 6, CityId = 1 },
-    new Dog { Id = 2, Name = "Zelda", WalkerId = 5, CityId = 2 },
+    new Dog { Id = 2, Name = "Zelda", CityId = 2 },
     new Dog { Id = 3, Name = "Chell", WalkerId = 4, CityId = 3 },
     new Dog { Id = 4, Name = "Sonic", WalkerId = 3, CityId = 4 },
     new Dog { Id = 5, Name = "Guybrush", WalkerId = 2, CityId = 5 },
@@ -109,6 +109,35 @@ app.MapGet("/api/dogs", () =>
         Name = d.Name,
         WalkerId = d.WalkerId,
         CityId = d.CityId
+    });
+});
+
+app.MapGet("/api/dogs/{id}", (int id) => {
+    Dog dog = dogs.FirstOrDefault(d => d.Id == id);
+    if (dog == null)
+    {
+        return Results.NotFound();
+    }
+
+    Walker walker = walkers.FirstOrDefault(w => w.Id == dog.WalkerId);
+    City city = cities.FirstOrDefault(c => c.Id == dog.CityId);
+
+    return Results.Ok(new DogDTO
+    {
+        Id = dog.Id,
+        Name = dog.Name,
+        WalkerId = dog.WalkerId,
+        Walker = walker == null ? null : new WalkerDTO
+        {
+            Id = walker.Id,
+            Name = walker.Name
+        },
+        CityId = dog.CityId,
+        City = city == null ? null : new CityDTO
+        {
+            Id = city.Id,
+            Name = city.Name
+        }
     });
 });
 
