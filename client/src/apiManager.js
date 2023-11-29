@@ -22,3 +22,13 @@ export const getCities = async () => {
   const res = await fetch("/api/cities");
   return res.json();
 }
+
+export const addDog = (dog) => {
+  return fetch(`/api/dogs`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dog)
+  })
+}

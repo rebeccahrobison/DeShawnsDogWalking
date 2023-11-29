@@ -1,14 +1,40 @@
 import { useEffect, useState } from "react"
-import { getCities, getWalkers } from "../../apiManager";
+import { addDog, getCities } from "../../apiManager";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export const AddDog = () => {
+export const AddDog = ({route}) => {
   const [cities, setCities] = useState([]);
   const [chosenName, setChosenName] = useState("");
   const [chosenCityId, setChosenCityId] = useState(0);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;
+  const dogsArrLength = state ? state.dogsArrLength : 0;
+
+
   useEffect(() => {
     getCities().then(citiesArr => setCities(citiesArr))
   }, [])
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const parsedCityId = parseInt(chosenCityId);
+
+    const newDog = {
+      name: chosenName,
+      cityId: parsedCityId
+    }
+
+    if (newDog.name == "" || newDog.cityId == null || newDog.cityId == 0){
+      window.alert("Please fill out all fields");
+    } else {
+
+      const newDogId = dogsArrLength + 1;
+      addDog(newDog).then(() => navigate(`/doggie-details/${newDogId}`));
+    }
+  }
 
   return(
     <div className="newdog-container">
@@ -50,7 +76,7 @@ export const AddDog = () => {
             })}
           </select>
       </div>
-      <button>Add New Dog</button>
+      <button className="newdog-add-btn" onClick={handleSubmit}>Submit</button>
     </div>
   )
 }

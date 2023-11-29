@@ -5,14 +5,19 @@ import { useNavigate } from "react-router-dom"
 
 export const Dogs = () => {
   const [dogs, setDogs] = useState([])
+  const [dogsArrLength, setDogsArrLength] = useState(0)
 
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     getDogs().then(dogsArr => {
       setDogs(dogsArr)
     })
   }, [])
+
+  useEffect(() => {
+    setDogsArrLength(dogs.length)
+  }, [dogs])
 
 
 
@@ -20,7 +25,7 @@ export const Dogs = () => {
     <div className="dogs-container">
       <button 
         className="dog-add-btn"
-        onClick={() => {navigate(`newdog`)}}  
+        onClick={() => {navigate(`newdog`, { state: { dogsArrLength } })}}  
       >+Add New Dog</button>
       {/* <div>Dog List</div> */}
       {dogs.map(dog => {
