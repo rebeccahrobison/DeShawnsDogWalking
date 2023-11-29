@@ -1,0 +1,15 @@
+.dogs-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.dog {
+  background-color: rgb(53, 163, 163);
+  border-radius: 10px;
+  width: 200px;
+  padding: 20px 0;
+  font-weight: 900;
+}

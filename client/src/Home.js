@@ -1,5 +1,6 @@
-import { getGreeting } from "./apiManager";
+import { getDogs, getGreeting } from "./apiManager";
 import { useEffect, useState } from "react";
+import { Dogs } from "./components/Dogs";
 
 export default function Home() {
   const [greeting, setGreeting] = useState({
@@ -14,5 +15,13 @@ export default function Home() {
       });
   }, []);
 
-  return <p>{greeting.message}</p>;
+
+
+  return (
+    <div className="container">
+      <p>{greeting.message}</p>
+      <Dogs />
+
+    </div>
+  );
 }
