@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getDogs } from "../apiManager"
+import { getDogs } from "../../apiManager"
 import "./Dogs.css"
 
 export const Dogs = () => {
