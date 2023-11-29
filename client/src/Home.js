@@ -1,6 +1,6 @@
 import { getDogs, getGreeting } from "./apiManager";
 import { useEffect, useState } from "react";
-import { Dogs } from "./components/Dogs";
+import { Dogs } from "./components/dogs/Dogs";
 
 export default function Home() {
   const [greeting, setGreeting] = useState({

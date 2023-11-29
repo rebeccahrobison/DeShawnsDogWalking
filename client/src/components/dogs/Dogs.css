@@ -6,10 +6,25 @@
   gap: 10px;
 }
 
-.dog {
+.dog-info {
   background-color: rgb(53, 163, 163);
   border-radius: 10px;
-  width: 200px;
+  width: 300px;
   padding: 20px 0;
+  margin-bottom: 5px;
+}
+
+.dog-name {
   font-weight: 900;
+  font-size: 1.5rem;
+}
+
+/* .dog-details-btn {
+  font-size: small;
+  border-radius: 5px;
+} */
+
+button {
+  font-size: small;
+  border-radius: 5px;
 }
