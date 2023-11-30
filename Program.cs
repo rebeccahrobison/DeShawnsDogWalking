@@ -161,12 +161,35 @@ app.MapPost("/api/dogs", (Dog dog) =>
     });
 });
 
-app.MapGet("api/walkers", () =>
+app.MapGet("/api/walkers", () =>
 {
     return walkers.Select(w => new WalkerDTO
     {
         Id = w.Id,
         Name = w.Name
+    });
+});
+
+app.MapGet("/api/walkers/{id}", (int id) =>
+{
+    Walker walker = walkers.FirstOrDefault(w => w.Id == id);
+    if (walker == null)
+    {
+        return Results.NotFound();
+    }
+    List<WalkerCity> foundWalkerCities = walkerCities.Where(wc => wc.WalkerId == id).ToList();
+    List<City> foundCities = foundWalkerCities.Select(wc => cities.First(c => c.Id == wc.CityId)).ToList();
+    // walker.Cities = foundCities;
+
+    return Results.Ok(new WalkerDTO
+    {
+        Id = walker.Id,
+        Name = walker.Name,
+        Cities = foundCities.Select(fc => new CityDTO
+        {
+            Id = fc.Id,
+            Name = fc.Name
+        }).ToList()
     });
 });
 
@@ -176,6 +199,28 @@ app.MapGet("api/cities", () =>
     {
         Id = c.Id,
         Name = c.Name
+    });
+});
+
+app.MapGet("/api/cities/{id}", (int id) =>
+{
+    City city = cities.FirstOrDefault(c => c.Id == id);
+    if (city == null)
+    {
+        return Results.NotFound();
+    }
+    List<WalkerCity> foundWalkerCities = walkerCities.Where(wc => wc.CityId == id).ToList();
+    List<Walker> foundWalkers = foundWalkerCities.Select(wc => walkers.First(w => w.Id == wc.WalkerId)).ToList();
+
+    return Results.Ok(new CityDTO
+    {
+        Id = city.Id,
+        Name = city.Name,
+        Walkers = foundWalkers.Select(fw => new WalkerDTO
+        {
+            Id = fw.Id,
+            Name = fw.Name
+        }).ToList()
     });
 });
 
