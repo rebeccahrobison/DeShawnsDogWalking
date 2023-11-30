@@ -11,3 +11,24 @@
   padding: 20px 0;
   margin: 15px 0 5px 0;
 }
+
+.dogs-walkers-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.dog-walker {
+  background-color: rgb(53, 163, 163);
+  border-radius: 10px;
+  width: 300px;
+  padding: 20px 0;
+  margin-bottom: 5px;
+}
+
+.dog-walker:hover {
+  background-color: rgb(109, 109, 201);
+  cursor: pointer;
+}
