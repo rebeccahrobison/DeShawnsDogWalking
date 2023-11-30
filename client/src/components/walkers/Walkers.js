@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import "./Walkers.css";
 import { getCities, getCityById, getWalkers } from "../../apiManager";
+import { useNavigate } from "react-router-dom";
 
 export const Walkers = () => {
   const [walkers, setWalkers] = useState([]);
   const [cities, setCities] = useState([]);
   const [filteredWalkers, setFilteredWalkers] = useState([]);
   const [chosenCityId, setChosenCityId] = useState(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getWalkers().then(walkersArr => {
@@ -59,13 +62,17 @@ export const Walkers = () => {
           </select>
         </div>
         {filteredWalkers.map(walker => {
+          const walkerId = walker.id;
           return (
             <div className="walker" key={walker.id}>
               <div className="walker-info">
                 <div className="walker-name">{walker.name}</div>
               </div>
-              <button>Add Dog</button>
-              <button className="dog-delete-btn">Remove</button>
+              <button 
+                className="walker-add-dog-btn"
+                onClick={() => {navigate(`/assignwalker`, { state: { walkerId } })}}
+              >Add Dog</button>
+              <button className="walker-delete-btn">Remove</button>
             </div>
 
           )

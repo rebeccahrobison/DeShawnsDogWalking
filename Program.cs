@@ -108,7 +108,17 @@ app.MapGet("/api/dogs", () =>
         Id = d.Id,
         Name = d.Name,
         WalkerId = d.WalkerId,
-        CityId = d.CityId
+        Walker = walkers.FirstOrDefault(w => w.Id == d.WalkerId) == null ? null : new WalkerDTO
+        {
+            Id = d.WalkerId ?? 0,
+            Name = walkers.First(w => w.Id == d.WalkerId).Name
+        },
+        CityId = d.CityId,
+        City = cities.FirstOrDefault(c => c.Id == d.CityId) == null ? null : new CityDTO
+        {
+            Id = d.CityId,
+            Name = cities.First(c => c.Id == d.CityId).Name
+        }
     });
 });
 
@@ -224,5 +234,24 @@ app.MapGet("/api/cities/{id}", (int id) =>
     });
 });
 
+app.MapPut("/api/dogs/{id}", (int id, Dog dog) =>
+{
+    Dog dogToUpdate = dogs.FirstOrDefault(d => d.Id == id);
+
+    if (dogToUpdate == null)
+    {
+        return Results.NotFound();
+    }
+    if (id != dog.Id)
+    {
+        return Results.BadRequest();
+    }
+
+    dogToUpdate.Name = dog.Name;
+    dogToUpdate.WalkerId = dog.WalkerId;
+    dogToUpdate.CityId = dog.CityId;
+
+    return Results.NoContent();
+});
 
 app.Run();

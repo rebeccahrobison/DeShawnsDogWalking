@@ -42,3 +42,13 @@ export const addDog = (dog) => {
     body: JSON.stringify(dog)
   })
 }
+
+export const addWalkerToDog = (id, dogObj) => {
+  return fetch(`/api/dogs/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dogObj)
+  })
+}
