@@ -72,3 +72,12 @@ export const editWalker = (id, walkerObj) => {
     body: JSON.stringify(walkerObj)
   })
 }
+
+export const deleteDog = (id) => {
+  return fetch(`/api/dogs/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}
