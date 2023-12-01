@@ -81,3 +81,12 @@ export const deleteDog = (id) => {
     }
   })
 }
+
+export const deleteWalker = (id) => {
+  return fetch(`/api/walkers/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+}

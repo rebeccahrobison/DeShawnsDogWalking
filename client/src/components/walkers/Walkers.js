@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Walkers.css";
-import { getCities, getCityById, getWalkers } from "../../apiManager";
+import { deleteWalker, getCities, getCityById, getWalkers } from "../../apiManager";
 import { Link, useNavigate } from "react-router-dom";
 
 export const Walkers = () => {
@@ -31,6 +31,13 @@ export const Walkers = () => {
       setFilteredWalkers(walkers);
     }
   }, [chosenCityId, walkers])
+
+  const handleRemoveWalkerBtn = (e, walkerId) => {
+    e.preventDefault();
+    deleteWalker(walkerId).then(() => {
+      getWalkers().then(arr => setWalkers(arr))
+    })
+  }
   
   return (
     <div className="walkers-container">
@@ -72,7 +79,11 @@ export const Walkers = () => {
                 className="walker-add-dog-btn"
                 onClick={() => {navigate(`/assignwalker`, { state: { walkerId } })}}
               >Add Dog</button>
-              <button className="walker-delete-btn">Remove</button>
+              <button 
+                className="walker-delete-btn" 
+                onClick={(e) => handleRemoveWalkerBtn(e,  walkerId)}
+                >Remove
+              </button>
             </div>
 
           )
