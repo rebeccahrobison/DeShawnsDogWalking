@@ -62,3 +62,13 @@ export const addCity = (cityObj) => {
     body: JSON.stringify(cityObj)
   })
 }
+
+export const editWalker = (id, walkerObj) => {
+  return fetch(`/api/walkers/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(walkerObj)
+  })
+}

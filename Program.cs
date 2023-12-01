@@ -122,7 +122,8 @@ app.MapGet("/api/dogs", () =>
     });
 });
 
-app.MapGet("/api/dogs/{id}", (int id) => {
+app.MapGet("/api/dogs/{id}", (int id) =>
+{
     Dog dog = dogs.FirstOrDefault(d => d.Id == id);
     if (dog == null)
     {
@@ -264,6 +265,37 @@ app.MapPost("api/cities", (City city) =>
         Id = city.Id,
         Name = city.Name
     });
+});
+
+app.MapPut("api/walkers/{id}", (int id, Walker walker) =>
+{
+    // deletes walkerCities that walker previously had
+    walkerCities = walkerCities.Where(wc => wc.WalkerId != walker.Id).ToList();
+
+    foreach (City city in walker.Cities)
+    {
+        WalkerCity newWC = new WalkerCity
+        {
+            WalkerId = walker.Id,
+            CityId = city.Id
+        };
+        newWC.Id = walkerCities.Count > 0 ? walkerCities.Max(wc => wc.Id) + 1 : 1;
+        walkerCities.Add(newWC);
+    }
+
+    Walker walkerToUpdate = walkers.FirstOrDefault(w => w.Id == id);
+    if (walkerToUpdate == null)
+    {
+        return Results.NotFound();
+    }
+    if (id != walker.Id)
+    {
+        return Results.BadRequest();
+    }
+
+    walkerToUpdate.Name = walker.Name;
+
+    return Results.NoContent();
 });
 
 app.Run();
