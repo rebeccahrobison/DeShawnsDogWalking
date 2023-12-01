@@ -58,7 +58,6 @@ export const AddDog = ({route}) => {
             if(e.target.value === 0) {
               setChosenCityId(null)
             } else {
-              // const foundCity = cities.find(c => c.id === parseInt(e.target.value))
               setChosenCityId(e.target.value)
             }
           }}>
