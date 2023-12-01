@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { addWalkerToDog, getDogs, getWalkerById } from "../../apiManager";
 import "./Walkers.css"
 
@@ -7,7 +7,6 @@ export const AssignWalker = () => {
   const [dogs, setDogs] = useState([]);
   const [availableDogs, setAvailableDogs] = useState([]);
   const [currentWalker, setCurrentWalker] = useState([]);
-  // const [currentWalkerCities, setCurrentWalkerCities] = useState([]);
 
   const location = useLocation();
   const walkerId = location.state && location.state.walkerId;
@@ -23,7 +22,6 @@ export const AssignWalker = () => {
 
   useEffect(() => {
     const dogsNotWalkedByWalker = dogs.filter(d => d.walkerId != walkerId);
-    // console.log(dogsNotWalkedByWalker)
     // let dogsArr = []
     if (currentWalker.cities) {
       const citiesArr = currentWalker.cities
@@ -38,15 +36,11 @@ export const AssignWalker = () => {
         citiesArr.some(city => city.id == dog.cityId))
       setAvailableDogs(dogsArr)
     }
-    // console.log("citiesArr", citiesArr)
   }, [dogs, walkerId, currentWalker])
 
   const handleClick = (dog, e) => {
     e.preventDefault();
-    // window.alert("this works")
-    console.log("dog after clicking", dog)
 
-    //assign walker to dog
     const dogToUpdate = {
       id: dog.id,
       name: dog.name,
@@ -54,8 +48,6 @@ export const AssignWalker = () => {
       cityId: dog.cityId
     }
     addWalkerToDog(dog.id, dogToUpdate).then(navigate(`/doggie-details/${dog.id}`))
-    //navigate to dog details
-
   }
 
   return (
@@ -76,10 +68,3 @@ export const AssignWalker = () => {
     </div>
   )
 }
-
-// A list of dogs which are: in the walker's cities
-// And not already assigned to this walker.
-
-// Get list of cities that walkers is in
-// Get list of dogs in those cities
-// Filter out dogs that are already assigned to current walker

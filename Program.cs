@@ -95,12 +95,6 @@ app.MapGet("/api/hello", () =>
     return new { Message = "Welcome to DeShawn's Dog Walking" };
 });
 
-app.MapGet("/api/test", () =>
-{
-    return new { Message = "Testing the API" };
-});
-
-
 app.MapGet("/api/dogs", () =>
 {
     return dogs.Select(d => new DogDTO
@@ -204,7 +198,7 @@ app.MapGet("/api/walkers/{id}", (int id) =>
     });
 });
 
-app.MapGet("api/cities", () =>
+app.MapGet("/api/cities", () =>
 {
     return cities.Select(c => new CityDTO
     {
@@ -255,7 +249,7 @@ app.MapPut("/api/dogs/{id}", (int id, Dog dog) =>
     return Results.NoContent();
 });
 
-app.MapPost("api/cities", (City city) =>
+app.MapPost("/api/cities", (City city) =>
 {
     city.Id = cities.Max(c => c.Id) + 1;
     cities.Add(city);
@@ -267,7 +261,7 @@ app.MapPost("api/cities", (City city) =>
     });
 });
 
-app.MapPut("api/walkers/{id}", (int id, Walker walker) =>
+app.MapPut("/api/walkers/{id}", (int id, Walker walker) =>
 {
     // deletes walkerCities that walker previously had
     walkerCities = walkerCities.Where(wc => wc.WalkerId != walker.Id).ToList();
@@ -294,6 +288,18 @@ app.MapPut("api/walkers/{id}", (int id, Walker walker) =>
     }
 
     walkerToUpdate.Name = walker.Name;
+
+    return Results.NoContent();
+});
+
+app.MapDelete("/api/dogs/{id}", (int id) =>
+{
+    Dog dogToDelete = dogs.FirstOrDefault(d => d.Id == id);
+    if (dogToDelete == null)
+    {
+        return Results.NotFound();
+    }
+    dogs.Remove(dogToDelete);
 
     return Results.NoContent();
 });
